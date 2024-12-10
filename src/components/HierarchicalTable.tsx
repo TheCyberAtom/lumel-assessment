@@ -1,5 +1,6 @@
 import React from "react";
-import { TableData } from "../types/types";
+import { TableRow } from "./TableRow";
+import { Row, TableData } from "../types/types";
 
 interface HierarchicalTableProps {
   data: TableData;
@@ -10,6 +11,29 @@ export const HierarchicalTable: React.FC<HierarchicalTableProps> = ({
   data,
   onDataChange,
 }) => {
+  const updateRowValue = (rows: Row[], id: string, newValue: number): Row[] => {
+    return rows.map((row) => {
+      if (row.id === id) {
+        const updatedRow = { ...row, value: newValue };
+        if (row.children) {
+          // value needs to be distributed to each row children
+        }
+        return updatedRow;
+      }
+
+      if (row.children) {
+        // will use recurssion to handle children value update
+      }
+
+      return row;
+    });
+  };
+
+  const handleValueChange = (id: string, newValue: number) => {
+    const newRows = updateRowValue(data.rows, id, newValue);
+    onDataChange({ rows: newRows });
+  };
+
   const grandTotal = data.rows.reduce((sum, row) => sum + row.value, 0);
 
   return (
@@ -27,10 +51,12 @@ export const HierarchicalTable: React.FC<HierarchicalTableProps> = ({
         </thead>
         <tbody>
           {data.rows.map((row) => (
-            <tr>
-              <td className="px-4 py-2">{row.label}</td>
-              <td className="px-4 py-2">{row.value}</td>
-            </tr>
+            <TableRow
+              key={row.id}
+              row={row}
+              level={0}
+              onValueChange={handleValueChange}
+            />
           ))}
           <tr className="bg-gray-50 font-bold">
             <td className="px-4 py-2">Grand Total</td>
