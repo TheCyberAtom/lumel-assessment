@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Row } from "../types/types";
+import { calculateVariance } from "../utils/calculations";
 
 interface TableRowProps {
   row: Row;
@@ -14,7 +15,7 @@ export const TableRow: React.FC<TableRowProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
   const originalValue = row.originalValue ?? row.value;
-  const variance = originalValue;
+  const variance = calculateVariance(row.value, originalValue);
 
   const handleAllocationPercentage = () => {
     const percentage = parseFloat(inputValue);
