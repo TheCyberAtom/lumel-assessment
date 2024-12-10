@@ -58,6 +58,10 @@ function App() {
           <HierarchicalTable data={tableData} onDataChange={setTableData} />
         </div>
       </div>
+      <p className="text-center text-gray-500 mt-20">
+        Created by:{" "}
+        <a href="https://thecyberatom.netlify.app/">Rahul Kumar Mishra</a>
+      </p>
     </div>
   );
 }
