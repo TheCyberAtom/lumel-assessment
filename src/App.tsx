@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { HierarchicalTable } from "./components/HierarchicalTable";
 import { TableData } from "./types/types";
 
 const initialData: TableData = {
@@ -52,9 +53,9 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Hierarchical Table</h1>
+        <h1 className="text-3xl font-bold mb-6">Hierarchical Table</h1>
         <div className="bg-white rounded-lg shadow-md p-6">
-          {/* Table will be rendered here */}
+          <HierarchicalTable data={tableData} onDataChange={setTableData} />
         </div>
       </div>
     </div>
