@@ -1,6 +1,10 @@
 import React from "react";
 import { TableRow } from "./TableRow";
 import { Row, TableData } from "../types/types";
+import {
+  calculateSubtotal,
+  distributeValueToChildren,
+} from "../utils/calculations";
 
 interface HierarchicalTableProps {
   data: TableData;
@@ -16,13 +20,19 @@ export const HierarchicalTable: React.FC<HierarchicalTableProps> = ({
       if (row.id === id) {
         const updatedRow = { ...row, value: newValue };
         if (row.children) {
-          // value needs to be distributed to each row children
+          distributeValueToChildren(updatedRow, newValue);
         }
         return updatedRow;
       }
 
       if (row.children) {
-        // will use recurssion to handle children value update
+        const updatedChildren = updateRowValue(row.children, id, newValue);
+        const newSubtotal = calculateSubtotal({ children: updatedChildren });
+        return {
+          ...row,
+          children: updatedChildren,
+          value: newSubtotal,
+        };
       }
 
       return row;
